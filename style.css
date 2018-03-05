@@ -1,0 +1,32 @@
+#map {
+    display: flex;
+    flex-direction: row;
+    width: 630px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+div.W {
+    height: 30px;
+    width: 30px;
+    background-color: blue;
+}
+
+div.B {
+    height: 30px;
+    width: 30px;
+    background-color: white;
+}
+
+div#S {
+    height: 30px;
+    width: 30px;
+    position: relative;
+    background-image: url('cat.jpg');
+}
+div.F {
+    width: 30px;
+    height: 30px;
+    background-color: green;
+}
