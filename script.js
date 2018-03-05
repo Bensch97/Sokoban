@@ -57,7 +57,7 @@ document.addEventListener('keydown', (event) => {
         nextX = playerX
         nextY = playerY + 1
         console.log(map[nextX])
-        if (map[nextY][nextX] == "B") {
+        if (map[nextY][nextX] == "B" || map[nextY][nextX] == "F") {
             map[playerY][playerX] = "B"
             map[nextY][nextX] = "S"
             boxtop = boxtop + 30
@@ -65,7 +65,7 @@ document.addEventListener('keydown', (event) => {
     } else if (keyName == 'ArrowUp') {
         nextX = playerX
         nextY = playerY - 1
-        if (map[nextY][nextX] == "B") {
+        if (map[nextY][nextX] == "B" || map[nextY][nextX] == "F") {
             map[playerY][playerX] = "B"
             map[nextY][nextX] = "S"
             boxtop = boxtop - 30
@@ -73,7 +73,7 @@ document.addEventListener('keydown', (event) => {
     } else if (keyName == 'ArrowRight') {
         nextX = playerX + 1
         nextY = playerY
-        if (map[nextY][nextX] == "B") {
+        if (map[nextY][nextX] == "B" || map[nextY][nextX] == "F") {
             map[playerY][playerX] = "B"
             map[nextY][nextX] = "S"
         boxleft = boxleft + 30
@@ -81,7 +81,7 @@ document.addEventListener('keydown', (event) => {
     } else if (keyName == 'ArrowLeft') {
         nextX = playerX - 1
         nextY = playerY 
-        if (map[nextY][nextX] == "B") {
+        if (map[nextY][nextX] == "B" || map[nextY][nextX] == "F") {
             map[playerY][playerX] = "B"
             map[nextY][nextX] = "S"
         boxleft = boxleft - 30
