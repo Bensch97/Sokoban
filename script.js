@@ -76,19 +76,22 @@ document.addEventListener('keydown', (event) => {
         if (map[nextY][nextX] == "B" || map[nextY][nextX] == "F") {
             map[playerY][playerX] = "B"
             map[nextY][nextX] = "S"
-        boxleft = boxleft + 30
+            boxleft = boxleft + 30
         }
     } else if (keyName == 'ArrowLeft') {
         nextX = playerX - 1
-        nextY = playerY 
+        nextY = playerY
         if (map[nextY][nextX] == "B" || map[nextY][nextX] == "F") {
             map[playerY][playerX] = "B"
             map[nextY][nextX] = "S"
-        boxleft = boxleft - 30
+            boxleft = boxleft - 30
         }
     }
     document.getElementById("S").style.top = boxtop + "px";
     document.getElementById("S").style.left = boxleft + "px";
+    if (boxtop == -30 && boxleft == 600) {
+        alert("You did it, wow, you won, great")
+    }
 });
 
 createMap();
