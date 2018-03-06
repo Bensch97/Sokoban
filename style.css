@@ -1,7 +1,7 @@
 #map {
     display: flex;
     flex-direction: row;
-    width: 630px;
+    width: 240px;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: flex-start;
@@ -13,7 +13,7 @@ div.W {
     background-color: blue;
 }
 
-div.B {
+div {
     height: 30px;
     width: 30px;
     background-color: white;
@@ -25,8 +25,14 @@ div#S {
     position: relative;
     background-image: url('cat.jpg');
 }
-div.F {
+div.B {
     width: 30px;
     height: 30px;
-    background-color: green;
+    background-color: brown;
+}
+
+div.O {
+    width: 30px;
+    height: 30px;
+    background-color: red;
 }

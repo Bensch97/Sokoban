@@ -1,26 +1,24 @@
 let map = [
-    "WWWWWWWWWWWWWWWWWWWWW",
-    "WBBBWBBBBBWBBBBBWBWBW",
-    "WBWBWBWWWBWWWWWBWBWBW",
-    "WBWBWBBBWBBBBBWBWBBBW",
-    "WBWWWWWWWBWBWWWBWBWBW",
-    "WBBBBBBBBBWBBBBBWBWBW",
-    "WBWWWBWWWWWBWWWWWBWBW",
-    "WBWBBBWBBBWBWBBBBBWBW",
-    "WBWWWWWBWBWBWBWWWBWBF",
-    "SBBBBBWBWBWBWBWBWBWWW",
-    "WWWWWBWBWBWBWBWBWBWBW",
-    "WBBBBBWBWBWBBBWBWBWBW",
-    "WBWWWWWWWBWWWWWBWBWBW",
-    "WBBBBBBBWBBBBBBBWBBBW",
-    "WWWWWWWWWWWWWWWWWWWWW"
+    "  WWWWW ",
+    "WWW   W ",
+    "WOSB  W ",
+    "WWW BOW ",
+    "WOWWB W ",
+    "W W O WW",
+    "WB XBBOW",
+    "W   O  W",
+    "WWWWWWWW"
 ];
 
 function createMap() {
-    for (let i = 0; i < map.length; i++) {
-        let mapRow = map[i].split('')
-        for (let v = 0; v < mapRow.length; v++) {
-            let mapKey = mapRow[v]
+    for (var i = 0; i < map.length; i++) {
+        console.log('i;', i)
+        console.log('Rows:', map[i])
+        if (typeof map[i] == 'string') {
+            var mapRow = map[i].split('')
+        } else (mapRow = map[i])
+        for (var v = 0; v < mapRow.length; v++) {
+            var mapKey = mapRow[v]
             mapKey = document.createElement('div')
             if (mapRow[v] == 'S') {
                 mapKey.id = mapRow[v]
@@ -30,8 +28,8 @@ function createMap() {
             let destination = document.getElementById('map')
             destination.appendChild(mapKey)
         }
-        map[i] = mapRow
     }
+    map[i] = mapRow
 }
 
 let boxtop = 0;
@@ -39,10 +37,12 @@ let boxleft = 0;
 
 document.addEventListener('keydown', (event) => {
     const keyName = event.key;
-    let nextX = 0;
-    let nextY = 0;
-    let playerX = 0;
-    let playerY = 0;
+    var pushX = 0;
+    var pushY = 0;
+    var nextX = 0;
+    var nextY = 0;
+    var playerX = 0;
+    var playerY = 0;
     outer:
     for (let y = 0; y < map.length; y++) {
         for (let x = 0; x < map[y].length; x++) {
@@ -56,42 +56,70 @@ document.addEventListener('keydown', (event) => {
     if (keyName == 'ArrowDown') {
         nextX = playerX
         nextY = playerY + 1
+        pushX = playerX
+        pushY = playerY + 2
         console.log(map[nextX])
-        if (map[nextY][nextX] == "B" || map[nextY][nextX] == "F") {
-            map[playerY][playerX] = "B"
+        if (map[nextY][nextX] == " ") {
+            map[playerY][playerX] = " "
             map[nextY][nextX] = "S"
+            boxtop = boxtop + 30
+        } else if (map[nextY][nextX] == "B") {
+            map[playerY][playerX] = " "
+            map[nextY][nextX] = "S"
+            map[pushY][pushX] = "B"
             boxtop = boxtop + 30
         }
     } else if (keyName == 'ArrowUp') {
         nextX = playerX
         nextY = playerY - 1
-        if (map[nextY][nextX] == "B" || map[nextY][nextX] == "F") {
-            map[playerY][playerX] = "B"
+        pushX = playerX
+        pushY = playerY - 2
+        if (map[nextY][nextX] == " ") {
+            map[playerY][playerX] = " "
             map[nextY][nextX] = "S"
+            boxtop = boxtop - 30
+        } else if (map[nextY][nextX] == "B") {
+            map[playerY][playerX] = " "
+            map[nextY][nextX] = "S"
+            map[pushY][pushX] = "B"
             boxtop = boxtop - 30
         }
     } else if (keyName == 'ArrowRight') {
         nextX = playerX + 1
         nextY = playerY
-        if (map[nextY][nextX] == "B" || map[nextY][nextX] == "F") {
-            map[playerY][playerX] = "B"
+        pushX = playerX + 2
+        pushY = playerY
+        if (map[nextY][nextX] == " ") {
+            map[playerY][playerX] = " "
             map[nextY][nextX] = "S"
+            boxleft = boxleft + 30
+        } else if (map[nextY][nextX] == "B") {
+            map[playerY][playerX] = " "
+            map[nextY][nextX] = "S"
+            map[pushY][pushX] = "B"
             boxleft = boxleft + 30
         }
     } else if (keyName == 'ArrowLeft') {
         nextX = playerX - 1
         nextY = playerY
-        if (map[nextY][nextX] == "B" || map[nextY][nextX] == "F") {
-            map[playerY][playerX] = "B"
+        pushX = playerX - 2
+        pushY = playerY
+        if (map[nextY][nextX] == " ") {
+            map[playerY][playerX] = " "
             map[nextY][nextX] = "S"
+            boxleft = boxleft - 30
+        } else if (map[nextY][nextX] == "B") {
+            map[playerY][playerX] = " "
+            map[nextY][nextX] = "S"
+            map[pushY][pushX] = "B"
             boxleft = boxleft - 30
         }
     }
     document.getElementById("S").style.top = boxtop + "px";
     document.getElementById("S").style.left = boxleft + "px";
-    if (boxtop == -30 && boxleft == 600) {
-        alert("You did it, wow, you won, great")
-    }
-});
-
+    createMap();
+    // if (boxtop == -30 && boxleft == 600) {
+    //     alert("You did it, wow, you won, great")
+}
+);
 createMap();
