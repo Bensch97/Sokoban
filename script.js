@@ -1,4 +1,4 @@
-let map = [
+let mapMaster = [
     "  WWWWW ",
     "WWW   W ",
     "WOSB  W ",
@@ -10,27 +10,37 @@ let map = [
     "WWWWWWWW"
 ];
 
+let mapCurrent = [...mapMaster];
+
+var destination = document.getElementById('map')
+
 function createMap() {
-    for (var i = 0; i < map.length; i++) {
-        console.log('i;', i)
-        console.log('Rows:', map[i])
-        if (typeof map[i] == 'string') {
-            var mapRow = map[i].split('')
-        } else (mapRow = map[i])
+    while (destination.children.length) {
+        destination.removeChild(destination.firstChild)
+    }
+    for (var i = 0; i < mapCurrent.length; i++) {
+        var mapRow
+        if (typeof mapCurrent[i] == 'string') {
+            mapRow = mapCurrent[i].split('')
+        } else { 
+            mapRow = mapCurrent[i] 
+        }
+
         for (var v = 0; v < mapRow.length; v++) {
             var mapKey = mapRow[v]
             mapKey = document.createElement('div')
+
             if (mapRow[v] == 'S') {
                 mapKey.id = mapRow[v]
             } else {
                 mapKey.className = mapRow[v]
             }
-            let destination = document.getElementById('map')
             destination.appendChild(mapKey)
         }
-    }
-    map[i] = mapRow
+    };
 }
+
+
 
 let boxtop = 0;
 let boxleft = 0;
@@ -44,9 +54,9 @@ document.addEventListener('keydown', (event) => {
     var playerX = 0;
     var playerY = 0;
     outer:
-    for (let y = 0; y < map.length; y++) {
-        for (let x = 0; x < map[y].length; x++) {
-            if (map[y][x] == "S") {
+    for (let y = 0; y < mapCurrent.length; y++) {
+        for (let x = 0; x < mapCurrent[y].length; x++) {
+            if (mapCurrent[y][x] == "S") {
                 playerX = x;
                 playerY = y;
                 break outer
@@ -58,15 +68,15 @@ document.addEventListener('keydown', (event) => {
         nextY = playerY + 1
         pushX = playerX
         pushY = playerY + 2
-        console.log(map[nextX])
-        if (map[nextY][nextX] == " ") {
-            map[playerY][playerX] = " "
-            map[nextY][nextX] = "S"
+        console.log(mapCurrent[nextX])
+        if (mapCurrent[nextY][nextX] == " ") {
+            mapCurrent[playerY][playerX] = " "
+            mapCurrent[nextY][nextX] = "S"
             boxtop = boxtop + 30
-        } else if (map[nextY][nextX] == "B") {
-            map[playerY][playerX] = " "
-            map[nextY][nextX] = "S"
-            map[pushY][pushX] = "B"
+        } else if (mapCurrent[nextY][nextX] == "B") {
+            mapCurrent[playerY][playerX] = " "
+            mapCurrent[nextY][nextX] = "S"
+            mapCurrent[pushY][pushX] = "B"
             boxtop = boxtop + 30
         }
     } else if (keyName == 'ArrowUp') {
@@ -74,14 +84,14 @@ document.addEventListener('keydown', (event) => {
         nextY = playerY - 1
         pushX = playerX
         pushY = playerY - 2
-        if (map[nextY][nextX] == " ") {
-            map[playerY][playerX] = " "
-            map[nextY][nextX] = "S"
+        if (mapCurrent[nextY][nextX] == " ") {
+            mapCurrent[playerY][playerX] = " "
+            mapCurrent[nextY][nextX] = "S"
             boxtop = boxtop - 30
-        } else if (map[nextY][nextX] == "B") {
-            map[playerY][playerX] = " "
-            map[nextY][nextX] = "S"
-            map[pushY][pushX] = "B"
+        } else if (mapCurrent[nextY][nextX] == "B") {
+            mapCurrent[playerY][playerX] = " "
+            mapCurrent[nextY][nextX] = "S"
+            mapCurrent[pushY][pushX] = "B"
             boxtop = boxtop - 30
         }
     } else if (keyName == 'ArrowRight') {
@@ -89,14 +99,14 @@ document.addEventListener('keydown', (event) => {
         nextY = playerY
         pushX = playerX + 2
         pushY = playerY
-        if (map[nextY][nextX] == " ") {
-            map[playerY][playerX] = " "
-            map[nextY][nextX] = "S"
+        if (mapCurrent[nextY][nextX] == " ") {
+            mapCurrent[playerY][playerX] = " "
+            mapCurrent[nextY][nextX] = "S"
             boxleft = boxleft + 30
-        } else if (map[nextY][nextX] == "B") {
-            map[playerY][playerX] = " "
-            map[nextY][nextX] = "S"
-            map[pushY][pushX] = "B"
+        } else if (mapCurrent[nextY][nextX] == "B") {
+            mapCurrent[playerY][playerX] = " "
+            mapCurrent[nextY][nextX] = "S"
+            mapCurrent[pushY][pushX] = "B"
             boxleft = boxleft + 30
         }
     } else if (keyName == 'ArrowLeft') {
@@ -104,19 +114,22 @@ document.addEventListener('keydown', (event) => {
         nextY = playerY
         pushX = playerX - 2
         pushY = playerY
-        if (map[nextY][nextX] == " ") {
-            map[playerY][playerX] = " "
-            map[nextY][nextX] = "S"
+        if (mapCurrent[nextY][nextX] == " ") {
+            mapCurrent[playerY][playerX] = " "
+            mapCurrent[nextY][nextX] = "S"
             boxleft = boxleft - 30
-        } else if (map[nextY][nextX] == "B") {
-            map[playerY][playerX] = " "
-            map[nextY][nextX] = "S"
-            map[pushY][pushX] = "B"
+        } else if (mapCurrent[nextY][nextX] == "B") {
+            mapCurrent[playerY][playerX] = " "
+            mapCurrent[nextY][nextX] = "S"
+            mapCurrent[pushY][pushX] = "B"
             boxleft = boxleft - 30
         }
     }
     document.getElementById("S").style.top = boxtop + "px";
     document.getElementById("S").style.left = boxleft + "px";
+    console.log(mapMaster)
+    console.log(mapCurrent)
+
     createMap();
     // if (boxtop == -30 && boxleft == 600) {
     //     alert("You did it, wow, you won, great")

@@ -8,8 +8,6 @@
 }
 
 div.W {
-    height: 30px;
-    width: 30px;
     background-color: blue;
 }
 
@@ -20,19 +18,16 @@ div {
 }
 
 div#S {
-    height: 30px;
-    width: 30px;
     position: relative;
     background-image: url('cat.jpg');
 }
 div.B {
-    width: 30px;
-    height: 30px;
     background-color: brown;
+}
+div.X{
+    background-color: chocolate
 }
 
 div.O {
-    width: 30px;
-    height: 30px;
     background-color: red;
 }
