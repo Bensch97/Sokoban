@@ -1,3 +1,5 @@
+const log = console.log
+
 let mapMaster = [
     "  WWWWW ",
     "WWW   W ",
@@ -10,27 +12,36 @@ let mapMaster = [
     "WWWWWWWW"
 ];
 
+const space = " ";
+const wall = "W";
+const player = "S";
+const box = "B";
+const target = "O";
+const occupiedTarget = "X";
+
 let mapCurrent = [...mapMaster];
 
-var destination = document.getElementById('map')
+var destination = document.getElementById("map");
 
 function createMap() {
-    while (destination.children.length) {
-        destination.removeChild(destination.firstChild)
-    }
+    // if (destination.children.length) {
+    //     destination.removeChild(destination.firstChild);
+    // }
+    log("curr", mapCurrent)
+    log("master", mapMaster)
     for (var i = 0; i < mapCurrent.length; i++) {
-        var mapRow
-        if (typeof mapCurrent[i] == 'string') {
-            mapRow = mapCurrent[i].split('')
+        var mapRow;
+        if (typeof mapCurrent[i] == "string") {
+            mapRow = mapCurrent[i].split("");
         } else { 
-            mapRow = mapCurrent[i] 
+            mapRow = mapCurrent[i];
         }
 
         for (var v = 0; v < mapRow.length; v++) {
             var mapKey = mapRow[v]
-            mapKey = document.createElement('div')
+            mapKey = document.createElement("div")
 
-            if (mapRow[v] == 'S') {
+            if (mapRow[v] == player) {
                 mapKey.id = mapRow[v]
             } else {
                 mapKey.className = mapRow[v]
@@ -40,99 +51,105 @@ function createMap() {
     };
 }
 
+function getPlayerCoord () {
+    for (var y = 0; y < mapCurrent.length; y++) {
+        for (var x = 0; x < mapCurrent[y].length; x++) {
+            if (mapCurrent[y][x] == player) {
+                return [ y, x ]
+            }
+        }
+    }
+}
 
-
-let boxtop = 0;
-let boxleft = 0;
-
-document.addEventListener('keydown', (event) => {
-    const keyName = event.key;
+function reassignCoord(keyName) {
     var pushX = 0;
     var pushY = 0;
     var nextX = 0;
     var nextY = 0;
-    var playerX = 0;
-    var playerY = 0;
-    outer:
-    for (let y = 0; y < mapCurrent.length; y++) {
-        for (let x = 0; x < mapCurrent[y].length; x++) {
-            if (mapCurrent[y][x] == "S") {
-                playerX = x;
-                playerY = y;
-                break outer
-            }
-        }
-    }
-    if (keyName == 'ArrowDown') {
+    
+    // https://javascript.info/destructuring-assignment
+    let [ playerX, playerY ] = getPlayerCoord();
+
+    let playerCurrent = mapCurrent[playerY][playerX];
+    let playerNext
+    let playerPush
+    
+    if (keyName == "ArrowDown") {
         nextX = playerX
         nextY = playerY + 1
         pushX = playerX
         pushY = playerY + 2
-        console.log(mapCurrent[nextX])
-        if (mapCurrent[nextY][nextX] == " ") {
-            mapCurrent[playerY][playerX] = " "
-            mapCurrent[nextY][nextX] = "S"
-            boxtop = boxtop + 30
-        } else if (mapCurrent[nextY][nextX] == "B") {
-            mapCurrent[playerY][playerX] = " "
-            mapCurrent[nextY][nextX] = "S"
-            mapCurrent[pushY][pushX] = "B"
-            boxtop = boxtop + 30
+        playerNext = mapCurrent[nextY][nextX]
+        playerPush = mapCurrent[pushY][pushX]
+
+        if (playerNext == space) {
+            playerCurrent = space
+            playerNext = player
+        } else if (playerNext == box) {
+            playerCurrent = space
+            playerNext = player
+            playerPush = box
         }
-    } else if (keyName == 'ArrowUp') {
+    } else if (keyName == "ArrowUp") {
         nextX = playerX
         nextY = playerY - 1
         pushX = playerX
         pushY = playerY - 2
-        if (mapCurrent[nextY][nextX] == " ") {
-            mapCurrent[playerY][playerX] = " "
-            mapCurrent[nextY][nextX] = "S"
-            boxtop = boxtop - 30
-        } else if (mapCurrent[nextY][nextX] == "B") {
-            mapCurrent[playerY][playerX] = " "
-            mapCurrent[nextY][nextX] = "S"
-            mapCurrent[pushY][pushX] = "B"
-            boxtop = boxtop - 30
+        playerNext = mapCurrent[nextY][nextX]
+        playerPush = mapCurrent[pushY][pushX]
+
+        if (playerNext == space) {
+            playerCurrent = space
+            playerNext = player
+        } else if (playerNext == box) {
+            playerCurrent = space
+            playerNext = player
+            playerPush = box
         }
-    } else if (keyName == 'ArrowRight') {
+    } else if (keyName == "ArrowRight") {
         nextX = playerX + 1
         nextY = playerY
         pushX = playerX + 2
         pushY = playerY
-        if (mapCurrent[nextY][nextX] == " ") {
-            mapCurrent[playerY][playerX] = " "
-            mapCurrent[nextY][nextX] = "S"
-            boxleft = boxleft + 30
-        } else if (mapCurrent[nextY][nextX] == "B") {
-            mapCurrent[playerY][playerX] = " "
-            mapCurrent[nextY][nextX] = "S"
-            mapCurrent[pushY][pushX] = "B"
-            boxleft = boxleft + 30
+        playerNext = mapCurrent[nextY][nextX]
+        playerPush = mapCurrent[pushY][pushX]
+
+        if (playerNext == space) {
+            playerCurrent = space
+            playerNext = player
+        } else if (playerNext == box) {
+            playerCurrent = space
+            playerNext = player
+            playerPush = box
         }
-    } else if (keyName == 'ArrowLeft') {
+    } else if (keyName == "ArrowLeft") {
         nextX = playerX - 1
         nextY = playerY
         pushX = playerX - 2
         pushY = playerY
-        if (mapCurrent[nextY][nextX] == " ") {
-            mapCurrent[playerY][playerX] = " "
-            mapCurrent[nextY][nextX] = "S"
-            boxleft = boxleft - 30
-        } else if (mapCurrent[nextY][nextX] == "B") {
-            mapCurrent[playerY][playerX] = " "
-            mapCurrent[nextY][nextX] = "S"
-            mapCurrent[pushY][pushX] = "B"
-            boxleft = boxleft - 30
+        playerNext = mapCurrent[nextY][nextX]
+        playerPush = mapCurrent[pushY][pushX]
+
+        if (playerNext == space) {
+            playerCurrent = space
+            playerNext = player
+        } else if (playerNext == box) {
+            playerCurrent = space
+            playerNext = player
+            playerPush = box
         }
     }
-    document.getElementById("S").style.top = boxtop + "px";
-    document.getElementById("S").style.left = boxleft + "px";
-    console.log(mapMaster)
-    console.log(mapCurrent)
 
-    createMap();
-    // if (boxtop == -30 && boxleft == 600) {
-    //     alert("You did it, wow, you won, great")
+    mapCurrent[playerY][playerX] = playerCurrent;
+    mapCurrent[nextY][nextX] = playerNext; //not yet real code -- was playerNext
+    mapCurrent[pushY][pushX] = playerPush;
 }
-);
+
+document.addEventListener("keydown", (event) => {
+    
+    createMap( reassignCoord( event.key ) );
+    
+    //     alert("You did it, wow, you won, great")
+});
+
 createMap();
