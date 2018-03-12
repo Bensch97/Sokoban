@@ -61,6 +61,23 @@ function getPlayerCoord () {
     }
 }
 
+function movinShit (x) {
+    nextX = playerX
+        nextY = playerY + x
+        pushX = playerX
+        pushY = playerY + (2 * x)
+        playerNext = mapCurrent[nextY][nextX]
+        playerPush = mapCurrent[pushY][pushX]
+        if (playerNext == space) {
+            playerCurrent = space
+            playerNext = player
+        } else if (playerNext == box) {
+            playerCurrent = space
+            playerNext = player
+            playerPush = box
+        }
+}
+
 function reassignCoord(keyName) {
     var pushX = 0;
     var pushY = 0;
@@ -75,69 +92,13 @@ function reassignCoord(keyName) {
     let playerPush
     
     if (keyName == "ArrowDown") {
-        nextX = playerX
-        nextY = playerY + 1
-        pushX = playerX
-        pushY = playerY + 2
-        playerNext = mapCurrent[nextY][nextX]
-        playerPush = mapCurrent[pushY][pushX]
-
-        if (playerNext == space) {
-            playerCurrent = space
-            playerNext = player
-        } else if (playerNext == box) {
-            playerCurrent = space
-            playerNext = player
-            playerPush = box
-        }
+        movinShit(1)
     } else if (keyName == "ArrowUp") {
-        nextX = playerX
-        nextY = playerY - 1
-        pushX = playerX
-        pushY = playerY - 2
-        playerNext = mapCurrent[nextY][nextX]
-        playerPush = mapCurrent[pushY][pushX]
-
-        if (playerNext == space) {
-            playerCurrent = space
-            playerNext = player
-        } else if (playerNext == box) {
-            playerCurrent = space
-            playerNext = player
-            playerPush = box
-        }
+        movinShit(-1)
     } else if (keyName == "ArrowRight") {
-        nextX = playerX + 1
-        nextY = playerY
-        pushX = playerX + 2
-        pushY = playerY
-        playerNext = mapCurrent[nextY][nextX]
-        playerPush = mapCurrent[pushY][pushX]
-
-        if (playerNext == space) {
-            playerCurrent = space
-            playerNext = player
-        } else if (playerNext == box) {
-            playerCurrent = space
-            playerNext = player
-            playerPush = box
-        }
+        movinShit(1)
     } else if (keyName == "ArrowLeft") {
-        nextX = playerX - 1
-        nextY = playerY
-        pushX = playerX - 2
-        pushY = playerY
-        playerNext = mapCurrent[nextY][nextX]
-        playerPush = mapCurrent[pushY][pushX]
-
-        if (playerNext == space) {
-            playerCurrent = space
-            playerNext = player
-        } else if (playerNext == box) {
-            playerCurrent = space
-            playerNext = player
-            playerPush = box
-        }
+       movinShit(-1)
     }
 
     mapCurrent[playerY][playerX] = playerCurrent;
