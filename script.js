@@ -33,7 +33,7 @@ function createMap() {
         var mapRow;
         if (typeof mapCurrent[i] == "string") {
             mapRow = mapCurrent[i].split("");
-        } else { 
+        } else {
             mapRow = mapCurrent[i];
         }
 
@@ -51,65 +51,76 @@ function createMap() {
     };
 }
 
-function getPlayerCoord () {
+function getPlayerCoord() {
     for (var y = 0; y < mapCurrent.length; y++) {
         for (var x = 0; x < mapCurrent[y].length; x++) {
             if (mapCurrent[y][x] == player) {
-                return [ y, x ]
+                return [y, x]
             }
         }
     }
 }
+var [playerY, playerX] = getPlayerCoord();
+var pushX = 0;
+var pushY = 0;
+var nextX = 0;
+var nextY = 0;
 
-function movinShit (x) {
-    nextX = playerX
-        nextY = playerY + x
-        pushX = playerX
-        pushY = playerY + (2 * x)
-        playerNext = mapCurrent[nextY][nextX]
-        playerPush = mapCurrent[pushY][pushX]
-        if (playerNext == space) {
-            playerCurrent = space
-            playerNext = player
-        } else if (playerNext == box) {
-            playerCurrent = space
-            playerNext = player
-            playerPush = box
-        }
+
+function movingThings(x, y) {
+    nextX = playerX + x
+    nextY = playerY + y
+    pushX = playerX + (2 * x)
+    pushY = playerY + (2 * y)
+    let playerCurrent = mapCurrent[playerY][playerX];
+    let playerNext = mapCurrent[nextY][nextX]
+    let playerPush = mapCurrent[pushY][pushX]
+    function stringSplitter(str) {
+        str.split('')
+    }
+    var splitY = stringSplitter(mapCurrent[playerY])
+    if (playerNext == space) {
+        splitY.splice(playerCurrent, 1, space)
+        splitY.splice(playerNext, 1, player)
+        // playerCurrent = space
+        // playerNext = player
+    } else if ((playerNext == box) && (playerPush != box || wall)) {
+        splitY.splice(playerCurrent, 1, space)
+        splitY.splice(playerNext, 1, player)
+        splitY.splice(playerPush, 1, box)
+        // playerCurrent = space
+        // playerNext = player
+        // playerPush = box
+    }
 }
 
 function reassignCoord(keyName) {
-    var pushX = 0;
-    var pushY = 0;
-    var nextX = 0;
-    var nextY = 0;
-    
-    // https://javascript.info/destructuring-assignment
-    let [ playerX, playerY ] = getPlayerCoord();
 
-    let playerCurrent = mapCurrent[playerY][playerX];
-    let playerNext
-    let playerPush
-    
+    // https://javascript.info/destructuring-assignment
+
+    // let playerCurrent
+    // let playerNext
+    // let playerPush
+
     if (keyName == "ArrowDown") {
-        movinShit(1)
+        movingThings(0, 1)
     } else if (keyName == "ArrowUp") {
-        movinShit(-1)
+        movingThings(0, -1)
     } else if (keyName == "ArrowRight") {
-        movinShit(1)
+        movingThings(1, 0)
     } else if (keyName == "ArrowLeft") {
-       movinShit(-1)
+        movingThings(-1, 0)
     }
 
-    mapCurrent[playerY][playerX] = playerCurrent;
-    mapCurrent[nextY][nextX] = playerNext; //not yet real code -- was playerNext
-    mapCurrent[pushY][pushX] = playerPush;
+    // mapCurrent[playerY][playerX] = playerCurrent;
+    // mapCurrent[nextY][nextX] = playerNext;
+    // mapCurrent[pushY][pushX] = playerPush;
 }
 
 document.addEventListener("keydown", (event) => {
-    
-    createMap( reassignCoord( event.key ) );
-    
+
+    createMap(reassignCoord(event.key));
+
     //     alert("You did it, wow, you won, great")
 });
 
